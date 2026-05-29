@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-python: '3.x'
+        python-version: '3.x'
 
     - name: Run Scraper Script
       run: python scraper.py
