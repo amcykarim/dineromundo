@@ -1,15 +1,15 @@
 {
     "USD_MXN": {
-        "western_union": 17.13,
-        "wise": 17.28
+        "western_union": 17.14,
+        "wise": 17.3
     },
     "USD_DOP": {
-        "western_union": 58.25,
-        "wise": 58.9
+        "western_union": 58.22,
+        "wise": 58.87
     },
     "USD_COP": {
-        "western_union": 3590.8,
-        "wise": 3630.9
+        "western_union": 3599.1,
+        "wise": 3639.2
     },
     "USD_GTQ": {
         "western_union": 7.52,
@@ -20,11 +20,11 @@
         "wise": 26.45
     },
     "EUR_MXN": {
-        "western_union": 19.9,
-        "wise": 20.1
+        "western_union": 19.95,
+        "wise": 20.15
     },
     "EUR_COL": {
-        "western_union": 4176.4,
-        "wise": 4223.0
+        "western_union": 4192.2,
+        "wise": 4239.1
     }
 }
