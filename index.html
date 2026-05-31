@@ -286,35 +286,41 @@
         });
 
         // Al hacer clic en comparar
-        compareBtn.addEventListener('click', () => {
-            const srcSelect = document.getElementById('sourceCountry');
-            const destSelect = document.getElementById('destCountry');
-            
-            const srcCurrency = srcSelect.value;
-            const destCurrency = destSelect.value;
+      compareBtn.addEventListener('click', () => {
+    const srcSelect = document.getElementById('sourceCountry');
+    const destSelect = document.getElementById('to-country'); // Matches your new dropdown ID
 
-            resultTitle.innerText = `Tipos de cambio para ${srcCurrency} ➡️ ${destCurrency}`;
-            resultsCard.classList.remove('hidden');
+    const srcCurrency = srcSelect.value;
+    const destCurrency = destSelect.value;
 
-            // Llamar los datos locales dinámicamente
-            fetch('rates.json')
-                .then(response => response.json())
-                .then(data => {
-                    const pair = `${srcCurrency}_${destCurrency}`;
-                    if (data[pair]) {
-                        document.getElementById('wuRate').innerText = data[pair].western_union ? `${data[pair].western_union} ${destCurrency}` : 'No disponible';
-                        document.getElementById('wiseRate').innerText = data[pair].wise ? `${data[pair].wise} ${destCurrency}` : 'No disponible';
-                    } else {
-                        document.getElementById('wuRate').innerText = 'Ruta no soportada';
-                        document.getElementById('wiseRate').innerText = 'Ruta no soportada';
-                    }
-                })
-                .catch(err => {
-                    console.log("Esperando inicialización del archivo de datos...");
-                    document.getElementById('wuRate').innerText = 'Actualizando tasas...';
-                    document.getElementById('wiseRate').innerText = 'Actualizando tasas...';
-                });
+    resultTitle.innerText = `Tipos de cambio para ${srcCurrency} ➡️ ${destCurrency}`;
+    resultsCard.classList.remove('hidden');
+
+    // Fetch the fresh data from your scraper robot
+    fetch('rates.json')
+        .then(response => response.json())
+        .then(data => {
+            // Get the pure exchange rate relative to USD from your new scraper format
+            const rate = data[destCurrency];
+
+            if (rate) {
+                // If you are using standard simulated provider rates based on the real rate:
+                const wuRate = (rate * 0.985).toFixed(4); // Simulated Western Union rate (-1.5%)
+                const wiseRate = (rate * 0.993).toFixed(4); // Simulated Wise rate (-0.7%)
+
+                document.getElementById('wuRate').innerText = `${wuRate} ${destCurrency}`;
+                document.getElementById('wiseRate').innerText = `${wiseRate} ${destCurrency}`;
+            } else {
+                document.getElementById('wuRate').innerText = 'Ruta no soportada';
+                document.getElementById('wiseRate').innerText = 'Ruta no soportada';
+            }
+        })
+        .catch(err => {
+            console.log("Esperando inicialización del archivo de datos...", err);
+            document.getElementById('wuRate').innerText = 'Actualizando tasas...';
+            document.getElementById('wiseRate').innerText = 'Actualizando tasas...';
         });
+});
     </script>
 </body>
 </html>
