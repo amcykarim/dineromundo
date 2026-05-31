@@ -1,30 +1,11 @@
 {
-    "USD_MXN": {
-        "western_union": 17.14,
-        "wise": 17.3
-    },
-    "USD_DOP": {
-        "western_union": 58.22,
-        "wise": 58.87
-    },
-    "USD_COP": {
-        "western_union": 3599.1,
-        "wise": 3639.2
-    },
-    "USD_GTQ": {
-        "western_union": 7.52,
-        "wise": 7.59
-    },
-    "USD_HNL": {
-        "western_union": 26.18,
-        "wise": 26.45
-    },
-    "EUR_MXN": {
-        "western_union": 19.95,
-        "wise": 20.15
-    },
-    "EUR_COL": {
-        "western_union": 4192.2,
-        "wise": 4239.1
-    }
+    "MXN": 17.349287,
+    "COP": 3650.174066,
+    "DOP": 59.102004,
+    "GTQ": 7.621481,
+    "HNL": 26.579834,
+    "ARS": 1410.2904,
+    "PEN": 3.405402,
+    "VES": 554.4258,
+    "CLP": 891.792124
 }
