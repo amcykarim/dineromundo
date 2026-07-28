@@ -1,326 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DineroMundo - Compara Tasas de Remesas en Tiempo Real</title>
-    <style>
-        :root {
-            --primary: #0073e6;
-            --primary-hover: #005bb5;
-            --bg: #f4f9ff;
-            --text: #333333;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg);
-            color: var(--text);
-        }
-
-        header {
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            color: var(--primary);
-            font-size: 28px;
-            font-weight: 800;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .hero h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            color: #111;
-        }
-
-        .hero p {
-            color: #666;
-            font-size: 18px;
-            margin-top: 0;
-        }
-
-        .search-box {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 73, 230, 0.08);
-        }
-
-        .form-grid {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .input-group {
-            flex: 1;
-            min-width: 220px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-group label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .input-group select {
-            padding: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
-            background-color: #f8fafc;
-            outline: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .input-group select:focus {
-            border-color: var(--primary);
-            background-color: white;
-        }
-
-        .swap-btn {
-            background: #e2e8f0;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 22px;
-            transition: background 0.2s;
-        }
-
-        .swap-btn:hover {
-            background: #cbd5e1;
-        }
-
-        .btn-container {
-            width: 100%;
-            text-align: center;
-            margin-top: 25px;
-        }
-
-        .compare-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px 40px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-            transition: background 0.2s;
-            box-shadow: 0 4px 12px rgba(0, 115, 230, 0.2);
-        }
-
-        .compare-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .results-card {
-            margin-top: 30px;
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            border-top: 4px solid var(--primary);
-        }
-
-        .results-card h3 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #111;
-            font-size: 20px;
-            border-bottom: 1px solid #edf2f7;
-            padding-bottom: 10px;
-        }
-
-        .provider-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .provider-row:last-child {
-            border-bottom: none;
-        }
-
-        .provider-name {
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .provider-rate {
-            font-size: 18px;
-            font-weight: 800;
-            color: #2e7d32;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            .form-grid {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .swap-btn {
-                margin: 5px auto;
-                transform: rotate(90deg);
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DineroMundo | Calculadoras, transferencias y finanzas para latinos</title>
+  <meta name="description" content="Compara opciones para enviar dinero, usa calculadoras financieras gratuitas y aprende sobre ahorro, crédito, presupuesto y finanzas en Estados Unidos y Latinoamérica.">
+  <link rel="canonical" href="https://dineromundo.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_US">
+  <meta property="og:site_name" content="DineroMundo">
+  <meta property="og:title" content="DineroMundo | Finanzas claras para latinos">
+  <meta property="og:description" content="Calculadoras gratuitas, guías claras y recursos financieros para latinos en Estados Unidos y Latinoamérica.">
+  <meta property="og:url" content="https://dineromundo.com/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DineroMundo | Finanzas claras para latinos">
+  <meta name="twitter:description" content="Compara opciones, usa calculadoras gratuitas y aprende a manejar mejor tus finanzas.">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"DineroMundo","url":"https://dineromundo.com/","inLanguage":"es","description":"Plataforma educativa de herramientas y recursos financieros para latinos."}</script>
 </head>
 <body>
-
-    <header>
-        <h1>DineroMundo</h1>
-    </header>
-
-    <div class="container">
-        <div class="hero">
-            <h2>Compara Tasas de Envíos de Dinero</h2>
-            <p>Encuentra el mejor tipo de cambio en tiempo real para tus remesas.</p>
-        </div>
-
-        <div class="search-box">
-            <div class="form-grid">
-                <div class="input-group">
-                    <label for="sourceCountry">Desde:</label>
-                    <select id="sourceCountry">
-                        <option value="USD" selected>🇺🇸 Estados Unidos (USD)</option>
-                        <option value="EUR">🇪🇸 España (EUR)</option>
-                        <option value="CAD">🇨🇦 Canadá (CAD)</option>
-                    </select>
-                </div>
-
-                <button class="swap-btn" id="swapBtn" title="Intercambiar rumbos">🔄</button>
-
-                <div class="input-group">
-<label for="to-country" class="form-label">País de Destino:</label>
-<select id="to-country" class="form-select">
-    <option value="MXN" selected>México (MXN)</option>
-    <option value="COP">Colombia (COP)</option>
-    <option value="DOP">República Dominicana (DOP)</option>
-    <option value="GTQ">Guatemala (GTQ)</option>
-    <option value="HNL">Honduras (HNL)</option>
-    <option value="ARS">Argentina (ARS)</option>
-    <option value="PEN">Perú (PEN)</option>
-    <option value="VES">Venezuela (VES)</option>
-    <option value="CLP">Chile (CLP)</option>
-</select>
-                </div>
-
-                <div class="btn-container">
-                    <button class="compare-btn" id="compareBtn">Ver Tipos de Cambio</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="resultsCard" class="results-card hidden">
-            <h3 id="resultTitle">Tipos de cambio para USD ➡️ MXN</h3>
-            
-            <div class="provider-row">
-                <div class="provider-name">ℹ️ Western Union</div>
-                <div class="provider-rate" id="wuRate">Cargando...</div>
-            </div>
-            
-            <div class="provider-row">
-                <div class="provider-name">ℹ️ Wise</div>
-                <div class="provider-rate" id="wiseRate">Cargando...</div>
-            </div>
-        </div>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="./" aria-label="DineroMundo, página de inicio"><span>Dinero</span>Mundo</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="sr-only">Abrir menú principal</span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+        <a href="./" aria-current="page">Inicio</a><a href="#enviar-dinero">Enviar dinero</a><a href="calculadoras/">Calculadoras</a><a href="#paises">Países</a><a href="#proveedores">Proveedores</a><a href="#aprender">Aprender</a><a href="#nosotros">Nosotros</a>
+        <a class="btn btn-primary nav-cta" href="#herramientas">Explorar herramientas</a>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        const compareBtn = document.getElementById('compareBtn');
-        const resultsCard = document.getElementById('resultsCard');
-        const resultTitle = document.getElementById('resultTitle');
-        const swapBtn = document.getElementById('swapBtn');
+  <main id="contenido">
+    <section class="hero" id="enviar-dinero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Finanzas claras, decisiones informadas</p>
+          <h1>Tu centro financiero para enviar dinero y administrar mejor tus finanzas</h1>
+          <p class="hero-lede">Compara opciones, usa calculadoras gratuitas y aprende sobre ahorro, crédito, presupuesto y servicios financieros en Estados Unidos y Latinoamérica.</p>
+          <div class="button-row"><a class="btn btn-primary" href="#proveedores">Comparar opciones</a><a class="btn btn-secondary" href="#calculadoras">Ver calculadoras</a></div>
+          <p class="hero-note"><span aria-hidden="true">✓</span> Recursos gratuitos, explicados en español</p>
+        </div>
+        <div class="estimate-wrap" aria-label="Ejemplo ilustrativo de un envío de dinero">
+          <div class="estimate-card">
+            <div class="estimate-head"><div><span class="kicker">Vista ilustrativa</span><h2>Envío estimado</h2></div><span class="status">Ejemplo</span></div>
+            <div class="amount-block"><span>Monto enviado</span><strong>$500.00 USD</strong></div>
+            <dl class="estimate-list"><div><dt>Tarifa estimada</dt><dd>$8.00 USD</dd></div><div><dt>Tipo de cambio ilustrativo</dt><dd>—</dd></div></dl>
+            <div class="received"><span>Total recibido</span><strong>Confirma con el proveedor</strong></div>
+            <p>Ejemplo informativo. Confirma tarifas y tipos de cambio directamente con el proveedor.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        // Función Intercambiar
-        swapBtn.addEventListener('click', () => {
-            const src = document.getElementById('sourceCountry');
-            const dest = document.getElementById('destCountry');
-            const tempVal = src.value;
-            
-            // Verificación simple si existen en ambas listas
-            if([...dest.options].some(o => o.value === tempVal)) {
-                src.value = dest.value;
-                dest.value = tempVal;
-            }
-        });
+    <div class="container"><aside class="ad-slot" aria-label="Espacio publicitario">Espacio publicitario</aside></div>
 
-        // Al hacer clic en comparar
-      compareBtn.addEventListener('click', () => {
-    const srcSelect = document.getElementById('sourceCountry');
-    const destSelect = document.getElementById('to-country'); // Matches your new dropdown ID
+    <section class="section quick-section" id="herramientas" aria-labelledby="quick-title">
+      <div class="container"><h2 class="sr-only" id="quick-title">Herramientas principales</h2><div class="quick-grid">
+        <a class="quick-card" href="#enviar-dinero"><span class="icon" aria-hidden="true">↗</span><span><strong>Enviar dinero</strong><small>Explora opciones para transferencias internacionales.</small></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="quick-card" href="#calculadoras"><span class="icon" aria-hidden="true">▦</span><span><strong>Calculadoras</strong><small>Planifica préstamos, ahorro, presupuesto y deudas.</small></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="quick-card" href="#paises"><span class="icon" aria-hidden="true">◎</span><span><strong>Guías por país</strong><small>Encuentra información financiera para países de Latinoamérica.</small></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a class="quick-card" href="#aprender"><span class="icon" aria-hidden="true">$</span><span><strong>Finanzas en EE. UU.</strong><small>Aprende sobre bancos, crédito, salarios e impuestos.</small></span><span class="arrow" aria-hidden="true">→</span></a>
+      </div></div>
+    </section>
 
-    const srcCurrency = srcSelect.value;
-    const destCurrency = destSelect.value;
+    <section class="section" id="paises" aria-labelledby="countries-title"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">Guías por país</p><h2 id="countries-title">Destinos populares para enviar dinero</h2><p>Conoce los aspectos esenciales antes de realizar una transferencia internacional.</p></div></div>
+      <div class="country-grid">
+        <article class="card country-card"><span class="country-badge">MX</span><h3>México</h3><p>Información esencial para transferencias hacia México.</p><a href="#proximamente">Ver guía <span class="sr-only">de México</span></a></article>
+        <article class="card country-card"><span class="country-badge">CO</span><h3>Colombia</h3><p>Opciones y conceptos para enviar dinero a Colombia.</p><a href="#proximamente">Ver guía <span class="sr-only">de Colombia</span></a></article>
+        <article class="card country-card"><span class="country-badge">DO</span><h3>República Dominicana</h3><p>Información para transferencias a República Dominicana.</p><a href="#proximamente">Ver guía <span class="sr-only">de República Dominicana</span></a></article>
+        <article class="card country-card"><span class="country-badge">GT</span><h3>Guatemala</h3><p>Datos básicos para enviar dinero a Guatemala.</p><a href="#proximamente">Ver guía <span class="sr-only">de Guatemala</span></a></article>
+        <article class="card country-card"><span class="country-badge">HN</span><h3>Honduras</h3><p>Orientación general para transferencias a Honduras.</p><a href="#proximamente">Ver guía <span class="sr-only">de Honduras</span></a></article>
+        <article class="card country-card"><span class="country-badge">SV</span><h3>El Salvador</h3><p>Aspectos importantes al enviar dinero a El Salvador.</p><a href="#proximamente">Ver guía <span class="sr-only">de El Salvador</span></a></article>
+        <article class="card country-card"><span class="country-badge">PE</span><h3>Perú</h3><p>Información general para transferencias hacia Perú.</p><a href="#proximamente">Ver guía <span class="sr-only">de Perú</span></a></article>
+        <article class="card country-card"><span class="country-badge">EC</span><h3>Ecuador</h3><p>Conceptos clave para enviar dinero a Ecuador.</p><a href="#proximamente">Ver guía <span class="sr-only">de Ecuador</span></a></article>
+      </div>
+    </div></section>
 
-    resultTitle.innerText = `Tipos de cambio para ${srcCurrency} ➡️ ${destCurrency}`;
-    resultsCard.classList.remove('hidden');
+    <section class="section section-tint" id="calculadoras" aria-labelledby="calculators-title"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">Planifica con confianza</p><h2 id="calculators-title">Calculadoras financieras gratuitas</h2><p>Herramientas sencillas para entender mejor tus números y organizar tus próximos pasos.</p></div><a href="calculadoras/">Ver todas las calculadoras</a></div>
+      <div class="feature-grid">
+        <article class="card feature-card"><span class="icon" aria-hidden="true">▤</span><h3>Calculadora de presupuesto mensual</h3><p>Organiza ingresos, gastos y metas mensuales.</p><a href="calculadoras/presupuesto-mensual/">Usar calculadora</a></article>
+        <article class="card feature-card"><span class="icon" aria-hidden="true">◇</span><h3>Calculadora de meta de ahorro</h3><p>Estima cuánto puedes acumular con aportes constantes.</p><a href="calculadoras/meta-de-ahorro/">Usar calculadora</a></article>
+        <article class="card feature-card"><span class="icon" aria-hidden="true">$</span><h3>Calculadora de préstamo</h3><p>Explora pagos estimados y el costo de un préstamo.</p><a href="calculadoras/prestamo/">Usar calculadora</a></article>
+        <article class="card feature-card"><span class="icon" aria-hidden="true">▭</span><h3>Calculadora de pago de tarjeta de crédito</h3><p>Comprende el tiempo y costo de pagar un saldo.</p><a href="calculadoras/pago-tarjeta-credito/">Usar calculadora</a></article>
+        <article class="card feature-card"><span class="icon" aria-hidden="true">↗</span><h3>Calculadora de interés compuesto</h3><p>Visualiza el crecimiento potencial de tus ahorros.</p><a href="calculadoras/interes-compuesto/">Usar calculadora</a></article>
+        <article class="card feature-card"><span class="icon" aria-hidden="true">⇄</span><h3>Calculadora de costo de envío</h3><p>Compara los componentes del costo de una transferencia.</p><a href="calculadoras/costo-envio-dinero/">Usar calculadora</a></article>
+      </div>
+    </div></section>
 
-    // Fetch the fresh data from your scraper robot
-    fetch('rates.json')
-        .then(response => response.json())
-        .then(data => {
-            // Get the pure exchange rate relative to USD from your new scraper format
-            const rate = data[destCurrency];
+    <div class="container"><aside class="ad-slot" aria-label="Espacio publicitario">Espacio publicitario</aside></div>
 
-            if (rate) {
-                // If you are using standard simulated provider rates based on the real rate:
-                const wuRate = (rate * 0.985).toFixed(4); // Simulated Western Union rate (-1.5%)
-                const wiseRate = (rate * 0.993).toFixed(4); // Simulated Wise rate (-0.7%)
+    <section class="section" id="proveedores" aria-labelledby="providers-title"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">Conoce tus opciones</p><h2 id="providers-title">Explora proveedores de transferencias</h2><p>Consulta información general sobre servicios y métodos de entrega antes de decidir.</p></div></div>
+      <div class="provider-grid">
+        <article class="card provider-card"><span class="label">Información general</span><h3>Wise</h3><p>Servicio digital para transferencias internacionales.</p><small>Ejemplos: depósito bancario y cuenta multidivisa.</small><a href="#proximamente">Ver análisis <span class="sr-only">de Wise</span></a></article>
+        <article class="card provider-card"><span class="label">Información general</span><h3>Western Union</h3><p>Red internacional con opciones digitales y presenciales.</p><small>Ejemplos: depósito bancario y retiro en efectivo.</small><a href="#proximamente">Ver análisis <span class="sr-only">de Western Union</span></a></article>
+        <article class="card provider-card"><span class="label">Información general</span><h3>Remitly</h3><p>Servicio digital enfocado en transferencias internacionales.</p><small>Ejemplos: depósito, retiro en efectivo y entrega, según destino.</small><a href="#proximamente">Ver análisis <span class="sr-only">de Remitly</span></a></article>
+        <article class="card provider-card"><span class="label">Información general</span><h3>MoneyGram</h3><p>Proveedor con canales digitales y una red de agentes.</p><small>Ejemplos: retiro en efectivo y depósito bancario.</small><a href="#proximamente">Ver análisis <span class="sr-only">de MoneyGram</span></a></article>
+        <article class="card provider-card"><span class="label">Información general</span><h3>Ria Money Transfer</h3><p>Servicio de transferencias con opciones en línea y presenciales.</p><small>Ejemplos: depósito bancario y retiro en efectivo.</small><a href="#proximamente">Ver análisis <span class="sr-only">de Ria Money Transfer</span></a></article>
+        <article class="card provider-card"><span class="label">Información general</span><h3>Xoom</h3><p>Servicio de PayPal para determinados envíos internacionales.</p><small>Ejemplos: depósito bancario y retiro en efectivo.</small><a href="#proximamente">Ver análisis <span class="sr-only">de Xoom</span></a></article>
+      </div>
+    </div></section>
 
-                document.getElementById('wuRate').innerText = `${wuRate} ${destCurrency}`;
-                document.getElementById('wiseRate').innerText = `${wiseRate} ${destCurrency}`;
-            } else {
-                document.getElementById('wuRate').innerText = 'Ruta no soportada';
-                document.getElementById('wiseRate').innerText = 'Ruta no soportada';
-            }
-        })
-        .catch(err => {
-            console.log("Esperando inicialización del archivo de datos...", err);
-            document.getElementById('wuRate').innerText = 'Actualizando tasas...';
-            document.getElementById('wiseRate').innerText = 'Actualizando tasas...';
-        });
-});
-    </script>
+    <section class="section section-tint" id="aprender" aria-labelledby="learn-title"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">Educación financiera</p><h2 id="learn-title">Aprende a manejar mejor tu dinero</h2><p>Conceptos prácticos explicados con claridad para ayudarte a tomar decisiones informadas.</p></div></div>
+      <div class="article-grid">
+        <article class="card article-card"><span class="article-tag">Presupuesto</span><h3>Cómo crear un presupuesto mensual</h3><p>Una base sencilla para organizar lo que ganas, gastas y ahorras.</p><span class="coming">Próximamente</span></article>
+        <article class="card article-card"><span class="article-tag">Ahorro</span><h3>Cómo empezar un fondo de emergencia</h3><p>Pasos realistas para prepararte ante gastos inesperados.</p><span class="coming">Próximamente</span></article>
+        <article class="card article-card"><span class="article-tag">Crédito</span><h3>Cómo funciona el crédito en Estados Unidos</h3><p>Conoce los elementos que pueden influir en tu historial.</p><span class="coming">Próximamente</span></article>
+        <article class="card article-card"><span class="article-tag">Transferencias</span><h3>Cómo comparar servicios para enviar dinero</h3><p>Qué revisar además de la tarifa antes de elegir un servicio.</p><span class="coming">Próximamente</span></article>
+        <article class="card article-card"><span class="article-tag">Banca</span><h3>Cuenta corriente vs. cuenta de ahorro</h3><p>Entiende sus usos habituales y diferencias principales.</p><span class="coming">Próximamente</span></article>
+        <article class="card article-card"><span class="article-tag">Seguridad</span><h3>Cómo evitar estafas financieras</h3><p>Señales de alerta y hábitos para proteger tu dinero.</p><span class="coming">Próximamente</span></article>
+      </div>
+    </div></section>
+
+    <section class="section trust-section" id="nosotros" aria-labelledby="trust-title"><div class="container trust-grid">
+      <div><p class="eyebrow">Nuestro compromiso</p><h2 id="trust-title">Información financiera clara y útil</h2><p class="trust-copy">Creamos recursos prácticos para que puedas comprender tus opciones y hacer mejores preguntas antes de decidir.</p></div>
+      <ul class="trust-list"><li><span aria-hidden="true">✓</span>Contenido fácil de entender</li><li><span aria-hidden="true">✓</span>Fuentes y metodología transparentes</li><li><span aria-hidden="true">✓</span>Herramientas gratuitas</li><li><span aria-hidden="true">✓</span>Información revisada periódicamente</li></ul>
+      <p class="disclaimer">DineroMundo ofrece contenido educativo e informativo. Las tarifas, tipos de cambio, requisitos y disponibilidad pueden cambiar. Verifica siempre la información directamente con el proveedor o institución financiera.</p>
+    </div></section>
+
+    <section class="newsletter" id="proximamente" aria-labelledby="newsletter-title"><div class="container"><div class="newsletter-inner"><div><span class="label">Disponible próximamente</span><h2 id="newsletter-title">Recibe nuevas guías de DineroMundo</h2><p>Consejos prácticos sobre ahorro, crédito, presupuesto y transferencias internacionales.</p></div><div class="newsletter-form" aria-label="Suscripción disponible próximamente"><label for="email">Correo electrónico</label><div class="input-row"><input id="email" type="email" placeholder="tu@correo.com" disabled aria-describedby="email-note"><button class="btn btn-primary" type="button" disabled>Próximamente</button></div><small id="email-note">La suscripción todavía no está disponible.</small></div></div></div></section>
+    <div class="container"><aside class="ad-slot ad-bottom" aria-label="Espacio publicitario">Espacio publicitario</aside></div>
+  </main>
+
+  <footer class="site-footer"><div class="container">
+    <div class="footer-grid"><div class="footer-brand"><a class="brand brand-light" href="./"><span>Dinero</span>Mundo</a><p>Tu centro financiero para enviar dinero, comparar opciones y tomar mejores decisiones.</p></div>
+      <div><h2>DineroMundo</h2><ul><li><a href="#nosotros">Nosotros</a></li><li><span>Contacto — Próximamente</span></li><li><span>Política editorial — Próximamente</span></li></ul></div>
+      <div><h2>Herramientas</h2><ul><li><a href="calculadoras/">Calculadoras</a></li><li><a href="#enviar-dinero">Enviar dinero</a></li><li><a href="#paises">Países</a></li><li><a href="#proveedores">Proveedores</a></li></ul></div>
+      <div><h2>Legal</h2><ul><li><span>Privacidad — Próximamente</span></li><li><span>Términos — Próximamente</span></li><li><span>Aviso financiero — Próximamente</span></li><li><span>Divulgación de afiliados — Próximamente</span></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© <span data-year>2026</span> DineroMundo.com. Todos los derechos reservados.</p><p>Contenido educativo; no constituye asesoría financiera, legal ni fiscal.</p></div>
+  </div></footer>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
