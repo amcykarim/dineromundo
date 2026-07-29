@@ -3,10 +3,13 @@
   const nav = document.querySelector('#site-nav');
 
   if (toggle && nav) {
-    const closeMenu = () => {
+    const closeMenu = (restoreFocus = false) => {
+      const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
       nav.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
-      toggle.querySelector('.sr-only').textContent = 'Abrir menú principal';
+      const label = toggle.querySelector('.sr-only');
+      if (label) label.textContent = 'Abrir menú principal';
+      if (restoreFocus && wasOpen) toggle.focus();
     };
 
     toggle.addEventListener('click', () => {
@@ -15,7 +18,9 @@
       else {
         nav.classList.add('is-open');
         toggle.setAttribute('aria-expanded', 'true');
-        toggle.querySelector('.sr-only').textContent = 'Cerrar menú principal';
+        const label = toggle.querySelector('.sr-only');
+        if (label) label.textContent = 'Cerrar menú principal';
+        nav.querySelector('a')?.focus();
       }
     });
 
@@ -24,10 +29,7 @@
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        closeMenu();
-        toggle.focus();
-      }
+      if (event.key === 'Escape') closeMenu(true);
     });
 
     window.addEventListener('resize', () => {
@@ -35,7 +37,7 @@
     });
   }
 
-  document.querySelectorAll('[data-year]').forEach((element) => {
+  document.querySelectorAll('[data-year], [data-current-year]').forEach((element) => {
     element.textContent = new Date().getFullYear();
   });
 })();
