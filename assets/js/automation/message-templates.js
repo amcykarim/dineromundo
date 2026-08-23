@@ -1,0 +1,1 @@
+(function(root){'use strict';root.DMMessageTemplates={channels:['in_app','email','whatsapp','sms','webhook'],implementedChannels:['in_app'],variables:['customer_name','invoice_number','amount_due','due_date','business_name'],render(template,values={}){return String(template||'').replace(/\{\{([a-z_]+)\}\}/g,(_,key)=>String(values[key]??''));}};}(window));

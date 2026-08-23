@@ -1,0 +1,17 @@
+(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.DMRecurringEngine=api;}(typeof self!=='undefined'?self:this,function(){'use strict';
+  const frequencies=Object.freeze(['weekly','monthly','quarterly','yearly']);
+  const validDate=value=>{const s=String(value||'');if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return '';const [y,m,d]=s.split('-').map(Number),x=new Date(y,m-1,d);return x.getFullYear()===y&&x.getMonth()===m-1&&x.getDate()===d?s:'';};
+  const parts=value=>validDate(value).split('-').map(Number),format=(y,m,d)=>`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`,compare=(a,b)=>String(a).localeCompare(String(b));
+  const daysInMonth=(y,m)=>new Date(y,m,0).getDate();
+  function addDays(value,count){const [y,m,d]=parts(value),x=new Date(y,m-1,d);x.setDate(x.getDate()+Number(count));return format(x.getFullYear(),x.getMonth()+1,x.getDate());}
+  function addMonths(value,count,anchorDay){const [y,m,d]=parts(value),zero=m-1+Number(count),year=y+Math.floor(zero/12),month=((zero%12)+12)%12+1,target=Math.min(Number(anchorDay||d),daysInMonth(year,month));return format(year,month,target);}
+  function calculateNextOccurrence(current,{frequency='monthly',interval=1,startDate=current}={}){if(!validDate(current)||!frequencies.includes(frequency)||Number(interval)<1)return '';const anchor=parts(startDate)[2];if(frequency==='weekly')return addDays(current,7*interval);const months={monthly:1,quarterly:3,yearly:12}[frequency]*interval;return addMonths(current,months,anchor);}
+  function occurrences(template,count=3,from){const out=[],end=validDate(template.endDate),after=validDate(from),start=validDate(template.startDate),interval=Math.max(1,Number(template.interval)||1);if(!start||!frequencies.includes(template.frequency))return out;let cursor=start,guard=0;while(out.length<count&&guard++<10000){if((!after||compare(cursor,after)>0)&&(!end||compare(cursor,end)<=0))out.push(cursor);if(end&&compare(cursor,end)>=0)break;cursor=calculateNextOccurrence(cursor,{...template,interval});}return out;}
+  function nextAfter(template,after){return occurrences(template,1,after)[0]||null;}
+  function isRecurrenceDue(template,today){const date=validDate(today),next=validDate(template.nextRunAt||template.startDate);return Boolean(template.enabled&&date&&next&&compare(next,date)<=0&&(!template.endDate||compare(next,template.endDate)<=0));}
+  function getMissedOccurrences(template,today,limit=100){if(!template.enabled)return[];const due=[],date=validDate(today);let cursor=validDate(template.nextRunAt||template.startDate),guard=0;while(cursor&&compare(cursor,date)<=0&&guard++<limit){if(!template.endDate||compare(cursor,template.endDate)<=0)due.push(cursor);else break;cursor=calculateNextOccurrence(cursor,template);}return due;}
+  function resumeFromNextFuture(template,today){return {...template,enabled:true,nextRunAt:nextAfter({...template,enabled:true},today),updatedAt:new Date().toISOString()};}
+  const dedupeKey=(template,scheduledFor)=>`recurring_${template.type}:${template.id}:${scheduledFor}`;
+  function dueSummary(templates,today){return templates.map(template=>({template,occurrences:getMissedOccurrences(template,today)})).filter(x=>x.occurrences.length);}
+  return {frequencies,validDate,daysInMonth,addDays,addMonths,calculateNextOccurrence,occurrences,nextAfter,isRecurrenceDue,getMissedOccurrences,resumeFromNextFuture,dedupeKey,dueSummary};
+}));

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Mi cuenta | DineroMundo</title>
+<meta name="description" content="Administra tu perfil y el espacio de tu negocio en DineroMundo.">
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/account.css">
+</head>
+<body data-account-page="account">
+<header class="site-header">
+<div class="container header-inner">
+<a class="brand" href="../">
+<span>Dinero</span>Mundo</a>
+<nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+<a href="../">Inicio</a>
+<a href="../negocios/">Mi negocio</a>
+</nav>
+</div>
+</header>
+<main id="contenido">
+<section class="account-hero">
+<div class="container account-wrap">
+<p class="eyebrow">Cuenta de DineroMundo</p>
+<h1>Mi cuenta</h1>
+</div>
+</section>
+<section class="section">
+<div class="container account-wrap">
+<article class="account-card">
+<p data-account-message class="account-message" role="status" aria-live="polite" hidden>
+</p>
+<div class="account-status">
+<div>
+<strong>Correo</strong>
+<br>
+<span data-account-email>Cargando…</span>
+</div>
+<div>
+<strong>Estado</strong>
+<br>Cuenta activa</div>
+</div>
+<form class="account-form" data-auth-form>
+<label>Nombre<input name="fullName" maxlength="120" autocomplete="name">
+</label>
+<label>Nombre del negocio<input name="businessName" maxlength="160" autocomplete="organization" required>
+</label>
+<button class="btn btn-primary" type="submit">Guardar cambios</button>
+</form>
+<section class="migration-card" data-migration hidden>
+<h2>Importar mis datos locales</h2>
+<p>Encontramos datos guardados en este dispositivo. ¿Deseas copiarlos a tu cuenta de DineroMundo?</p>
+<p data-migration-counts>
+</p>
+<button class="btn btn-secondary" type="button" data-import-local>Importar a mi cuenta</button>
+<p>La copia local no se eliminará automáticamente.</p>
+</section>
+<div class="account-links">
+<button class="btn btn-secondary" type="button" data-sign-out>Cerrar sesión</button>
+<a href="../negocios/">Volver al negocio</a>
+<a href="eliminar/">Solicitar eliminación de cuenta</a>
+</div>
+</article>
+</div>
+</section>
+</main>
+<script src="../assets/js/main.js" defer>
+</script>
+<script src="../assets/js/quotes/storage.js" defer>
+</script>
+<script src="../assets/js/account/account-app.js" defer>
+</script>
+</body>
+</html>
+

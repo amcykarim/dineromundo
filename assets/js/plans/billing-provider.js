@@ -1,0 +1,1 @@
+(function(root){'use strict';class BillingProvider{async createCheckout(){throw new Error('No hay un proveedor de pagos conectado.');}async openPortal(){throw new Error('No hay un proveedor de pagos conectado.');}async getSubscription(){throw new Error('No hay un proveedor de pagos conectado.');}}root.DMBillingProvider=BillingProvider;}(window));

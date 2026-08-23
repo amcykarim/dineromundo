@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "businessProfile": { "name": "Negocio de prueba", "country": "México" },
+  "quotes": [],
+  "invoices": [
+    {
+      "id": "invoice-fixture-1",
+      "invoiceNumber": "FAC-2026-0099",
+      "businessId": "local-business",
+      "customerId": "customer-fixture-1",
+      "sourceQuoteId": "",
+      "issueDate": "2026-08-22",
+      "dueDate": "2026-09-22",
+      "country": "México",
+      "currency": "MXN",
+      "status": "emitida",
+      "business": { "name": "Negocio de prueba", "country": "México" },
+      "customer": { "name": "Cliente de prueba", "country": "México" },
+      "items": [{ "description": "Servicio", "quantity": 1, "unitPrice": 125, "discountRate": 0, "taxRate": 0 }],
+      "payment": { "method": "Transferencia", "bank": "", "reference": "", "instructions": "" },
+      "notes": "",
+      "terms": ""
+    }
+  ]
+}

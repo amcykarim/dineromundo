@@ -1,0 +1,1 @@
+(async()=>{'use strict';await(window.DMCloudReady||Promise.resolve());try{if(window.DMRecurringService&&await window.DMAuth?.getCurrentUser())await window.DMRecurringService.processDue();}catch(error){console.warn('No se pudieron revisar las recurrencias:',error.message);}})();

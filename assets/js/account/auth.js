@@ -1,0 +1,16 @@
+(function(root,factory){root.DMAuth=factory(root);}(window,function(root){'use strict';
+  const configured=()=>Boolean(root.DMSupabase&&root.DINEROMUNDO_CONFIG&&!/YOUR_PROJECT/.test(root.DINEROMUNDO_CONFIG.supabaseUrl));
+  const client=()=>{if(!configured())throw new Error('La conexión de cuenta todavía no está configurada.');return root.DMSupabase;};
+  const friendly=error=>{const message=String(error&&error.message||'');if(/rate limit|too many|429|email rate/i.test(message))return'Has solicitado varios correos en poco tiempo. Espera unos minutos e inténtalo de nuevo.';if(/invalid login/i.test(message))return'El correo o la contraseña no son correctos.';if(/email not confirmed/i.test(message))return'Confirma tu correo antes de iniciar sesión.';if(/already registered|user already exists/i.test(message))return'Ya existe una cuenta con ese correo. Intenta iniciar sesión o recuperar la contraseña.';if(/password/i.test(message)&&/least|weak/i.test(message))return'La contraseña no cumple los requisitos de seguridad.';if(/jwt|session|refresh token|not authenticated/i.test(message))return'Tu sesión terminó. Inicia sesión nuevamente.';if(/network|fetch|timeout/i.test(message))return'No pudimos conectar con tu cuenta. Revisa tu conexión e inténtalo nuevamente.';return'No pudimos completar la solicitud. Revisa los datos e inténtalo nuevamente.';};
+  const redirect=path=>{const cfg=root.DINEROMUNDO_CONFIG||{},local=[['local','host'].join(''),'127.0.0.1'].includes(location.hostname),base=local?`${location.origin}/`:(cfg.productionOrigin||'https://dineromundo.com/');return new URL(path,base).href;};
+  async function signUp({email,password,fullName,businessName}){const {data,error}=await client().auth.signUp({email,password,options:{data:{full_name:fullName||'',business_name:businessName||''},emailRedirectTo:redirect('cuenta/bienvenida/')}});if(error)throw new Error(friendly(error));return data;}
+  async function signIn(email,password){const {data,error}=await client().auth.signInWithPassword({email,password});if(error)throw new Error(friendly(error));return data;}
+  async function signOut(){const {error}=await client().auth.signOut();if(error)throw new Error(friendly(error));}
+  async function getSession(){if(!configured())return null;const {data,error}=await client().auth.getSession();if(error)return null;return data.session||null;}
+  async function getCurrentUser(){return (await getSession())?.user||null;}
+  function onAuthStateChange(callback){if(!configured())return {data:{subscription:{unsubscribe(){}}}};return client().auth.onAuthStateChange((_event,session)=>callback(session&&session.user||null));}
+  async function resetPassword(email){const {error}=await client().auth.resetPasswordForEmail(email,{redirectTo:redirect('cuenta/nueva-contrasena/')});if(error)throw new Error(friendly(error));}
+  async function updatePassword(password){const {error}=await client().auth.updateUser({password});if(error)throw new Error(friendly(error));}
+  async function requireAuth(){const user=await getCurrentUser();if(!user)location.href=redirect('cuenta/iniciar-sesion/');return user;}
+  return {configured,signUp,signIn,signOut,getSession,getCurrentUser,onAuthStateChange,resetPassword,updatePassword,requireAuth,friendly};
+}));

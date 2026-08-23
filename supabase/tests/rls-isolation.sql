@@ -1,0 +1,19 @@
+-- Run after schema.sql in a disposable Supabase project with pgTAP available.
+-- Replace the UUIDs with two confirmed auth.users IDs. This script is intentionally
+-- not executable until real test accounts exist; it documents the mandatory live gate.
+-- \set user_a '00000000-0000-0000-0000-000000000001'
+-- \set user_b '00000000-0000-0000-0000-000000000002'
+-- Required assertions for EACH of customers, quotes, invoices, incomes, expenses,
+-- automation_rules, reminders, automation_events, recurring_templates and recurring_runs:
+-- 1. SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claim.sub = :'user_a';
+-- 2. Insert/select/update/delete an A-owned row successfully.
+-- 3. Switch request.jwt.claim.sub to :'user_b'.
+-- 4. SELECT returns zero A-owned rows.
+-- 5. UPDATE and DELETE affect zero A-owned rows.
+-- 6. INSERT using A's business_id raises SQLSTATE 42501.
+-- Automation-specific gate: User B also gets zero rows when attempting to
+-- update/complete A reminders, enable/edit A rules, or read A history.
+-- Recurrence gate: User B cannot read/edit/delete/run A templates, insert a run
+-- for A's business, or read A run history. A manual run must still satisfy RLS.
+-- Supabase recommends policy tests that set both role and JWT subject; running these
+-- against real auth.users rows is the Phase 7 production launch gate.

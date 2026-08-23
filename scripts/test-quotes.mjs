@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const load = file => { const sandbox={module:{exports:{}},exports:{},self:undefined,Date,Math,Number,Intl};vm.runInNewContext(fs.readFileSync(new URL(file,import.meta.url),'utf8'),sandbox);return sandbox.module.exports; };
+const models = load('../assets/js/quotes/models.js');
+const calculations = load('../assets/js/quotes/calculations.js');
+const validation = load('../assets/js/quotes/validation.js');
+
+const item = calculations.calculateItem({ quantity: 2.5, unitPrice: 100.25, discountRate: 10, taxRate: 16 });
+assert.equal(JSON.stringify(item), JSON.stringify({ quantity: 2.5, unitPrice: 100.25, discountRate: 10, taxRate: 16, subtotal: 250.63, discount: 25.06, taxable: 225.57, tax: 36.09, total: 261.66 }));
+const totals = calculations.calculateQuote([{ description: 'Servicio', quantity: 2.5, unitPrice: 100.25, discountRate: 10, taxRate: 16 }, { description: 'Producto', quantity: 1, unitPrice: 50, discountRate: 0, taxRate: 0 }]);
+assert.equal(totals.subtotal, 300.63); assert.equal(totals.discount, 25.06); assert.equal(totals.tax, 36.09); assert.equal(totals.total, 311.66);
+assert.equal(calculations.calculateItem({ quantity: -2, unitPrice: -5, discountRate: 200, taxRate: -1 }).total, 0);
+assert.equal(models.countryCurrency.México, 'MXN'); assert.equal(models.countryCurrency.Colombia, 'COP'); assert.equal(models.countryCurrency.Perú, 'PEN'); assert.equal(models.countryCurrency.Chile, 'CLP'); assert.equal(models.countryCurrency.Argentina, 'ARS');
+const unsafe = validation.sanitizeQuote({ quoteNumber: '<img src=x onerror=alert(1)>', business: { name: '<script>alert(1)</script>', logoDataUrl: 'data:image/svg+xml;base64,PHN2Zz4=' }, customer: { name: '<b>Cliente</b>' }, items: [{ description: '<svg onload=alert(1)>', quantity: '2', unitPrice: '10', discountRate: '5', taxRate: '8' }] }, models);
+assert.equal(unsafe.business.name, '<script>alert(1)</script>'); assert.equal(unsafe.business.logoDataUrl, ''); assert.equal(unsafe.items[0].description, '<svg onload=alert(1)>');
+const backup = validation.validateBackup({ schemaVersion: 1, quotes: [unsafe], profile: null }, models); assert.equal(backup.quotes.length, 1);
+assert.equal(backup.schemaVersion, 4); assert.equal(backup.invoices.length, 0); assert.equal(backup.customers.length, 0);assert.equal(backup.incomes.length,0);assert.equal(backup.expenses.length,0);
+const v2 = validation.validateBackup({ schemaVersion: 2, quotes: [], invoices: [], businessProfile: null }, models); assert.equal(v2.schemaVersion, 4);
+const v5 = validation.validateBackup({ schemaVersion: 5, quotes: [], automationRules: [] }, models); assert.equal(v5.schemaVersion, 5);
+assert.throws(() => validation.validateBackup({ schemaVersion: 1, quotes: new Array(501).fill({}) }, models));
+const duplicate = models.duplicateQuote(models.createQuote({ quoteNumber: 'COT-2026-0001' })); assert.notEqual(duplicate.id, models.createQuote().id); assert.equal(duplicate.status, 'borrador');
+console.log(JSON.stringify({ cases: 20, totals: { subtotal: totals.subtotal, discount: totals.discount, tax: totals.tax, total: totals.total }, result: 'PASS' }, null, 2));
