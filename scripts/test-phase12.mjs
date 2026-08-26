@@ -1,11 +1,17 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';
 const root=process.cwd(),read=file=>fs.readFileSync(path.join(root,file),'utf8');let assertions=0;const ok=(value,message)=>{assert.ok(value,message);assertions+=1;};
-const main=read('assets/js/main.js'),auth=read('assets/js/account/auth.js'),errors=read('assets/js/production/errors.js'),contact=read('contacto/index.html'),privacy=read('privacidad/index.html'),terms=read('terminos/index.html'),deletion=read('cuenta/eliminar/index.html'),pricing=read('precios/index.html'),config=read('assets/js/config.js');
+const main=read('assets/js/main.js'),auth=read('assets/js/account/auth.js'),account=read('assets/js/account/account-app.js'),onboarding=read('assets/js/account/onboarding-app.js'),errors=read('assets/js/production/errors.js'),contact=read('contacto/index.html'),privacy=read('privacidad/index.html'),terms=read('terminos/index.html'),deletion=read('cuenta/eliminar/index.html'),pricing=read('precios/index.html'),config=read('assets/js/config.js');
 ok(main.includes('@supabase/supabase-js@2.112.3/'),'Supabase client must be exactly pinned');ok(!main.includes('@supabase/supabase-js@2/'),'Floating Supabase v2 path forbidden');
+ok(main.includes('Los datos de clientes se guardan en tu cuenta'),'Authenticated storage copy must describe cloud mode accurately');
 ok(/supabaseUrl:'https:\/\/[a-z0-9]+\.supabase\.co'/.test(config),'Production Supabase URL required');ok(/supabaseAnonKey:'sb_publishable_[^']+'/.test(config),'Browser publishable key required');ok(!/sb_secret_|service_role\s*:/i.test(config),'Privileged key forbidden');
 for(const [name,text] of [['contact',contact],['privacy',privacy],['terms',terms],['deletion',deletion]])ok(text.includes('amcykarimgroupinc@gmail.com'),`${name} support address`);
 ok(deletion.includes('ELIMINAR MI CUENTA')&&deletion.includes('same')===false,'Deletion confirmation must be Spanish and explicit');ok(deletion.includes('noindex,nofollow'),'Deletion page must be private');
 ok(auth.includes('Has solicitado varios correos en poco tiempo'),'Auth email rate-limit message');ok(errors.includes('Has solicitado varios correos en poco tiempo'),'Global rate-limit message');ok(auth.includes("location.href=redirect('cuenta/iniciar-sesion/')"),'Auth redirect must resolve from origin');
+ok(account.indexOf('new FormData(form)')<account.indexOf('busy(true)'),'Authentication must read form values before disabling controls');
+ok(account.includes("['register','login','recover','new-password'].includes(mode)"),'Generic auth handler must not attach to the account settings form');
+const onboardingSubmit=onboarding.slice(onboarding.indexOf("form.addEventListener('submit'"));
+ok(onboardingSubmit.indexOf('new FormData(form)')<onboardingSubmit.indexOf('node.disabled=true'),'Onboarding must read form values before disabling controls');
+ok(onboarding.includes("form.elements.taxId.value=profile.taxId||''"),'Onboarding must repopulate the saved tax ID');
 ok(pricing.includes('Disponible próximamente')&&pricing.includes('no procesa pagos'),'Paid checkout must remain disabled');
 for(const file of ['docs/LAUNCH-OPERATIONS.md','docs/ACCOUNT-DELETION.md','docs/BACKUP-RESTORE.md','docs/FIRST-10-USERS.md'])ok(fs.existsSync(path.join(root,file)),`${file} required`);
 console.log(JSON.stringify({result:'PASS',assertions,supabaseClient:'2.112.3',paidDependencies:'NONE'},null,2));

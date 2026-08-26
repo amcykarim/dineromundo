@@ -46,4 +46,20 @@
     element.textContent = new Date().getFullYear();
   });
   if(accountArea){window.DMCloudReady.then(async()=>{const nav=document.querySelector('#site-nav');if(!nav||!window.DMAuth)return;const user=await window.DMAuth.getCurrentUser(),home=new URL('../../',assetRoot);nav.querySelectorAll('[data-account-nav]').forEach(node=>node.remove());const links=user?[['Mi negocio',new URL('negocios/',home).href],['Cuenta',new URL('cuenta/',home).href],['Cerrar sesión','#']]:[['Iniciar sesión',new URL('cuenta/iniciar-sesion/',home).href],['Crear cuenta',new URL('cuenta/registro/',home).href]];links.forEach(([label,href])=>{const a=document.createElement('a');a.dataset.accountNav='';a.textContent=label;a.href=href;if(label==='Cerrar sesión')a.addEventListener('click',async event=>{event.preventDefault();await window.DMAuth.signOut();location.href=new URL('negocios/',home).href;});nav.append(a);});if(/\/negocios(?:\/|$)/.test(location.pathname)){const notice=document.createElement('p');notice.className='storage-mode-notice';notice.setAttribute('role','status');notice.textContent=user?'Guardado en tu cuenta':'Tus datos se guardan localmente en este dispositivo.';document.querySelector('main')?.prepend(notice);}});}
+  if(accountArea){window.DMCloudReady.then(async()=>{
+    if(!window.DMAuth||!await window.DMAuth.getCurrentUser())return;
+    const replacements=new Map([
+      ['Privacidad local','Privacidad de tu cuenta'],
+      ['Los datos de clientes se guardan localmente en este dispositivo y no se envían a servidores de DineroMundo en esta versión.','Los datos de clientes se guardan en tu cuenta y solo están disponibles durante una sesión autenticada.'],
+      ['Esta es una gestión básica de clientes para pequeños negocios. Los registros, cotizaciones y facturas permanecen en este navegador; no es un CRM certificado ni un servicio en la nube.','Esta es una gestión básica para pequeños negocios. Los registros se guardan en tu cuenta; no es un CRM certificado ni sustituye asesoría profesional.'],
+      ['La información de tus cotizaciones se guarda localmente en tu dispositivo y no se envía a servidores de DineroMundo en esta versión.','La información de tus cotizaciones se guarda en tu cuenta y está protegida por el acceso de usuario.'],
+      ['Tus borradores se guardan localmente en este dispositivo. No existe copia en la nube.','Tus borradores se guardan en tu cuenta y permanecen disponibles al volver a iniciar sesión.'],
+      ['Los ingresos se guardan en este dispositivo y no se envían a servidores de DineroMundo.','Los ingresos se guardan en tu cuenta y solo están disponibles durante una sesión autenticada.'],
+      ['Los gastos se guardan en este dispositivo y no se envían a servidores de DineroMundo.','Los gastos se guardan en tu cuenta y solo están disponibles durante una sesión autenticada.'],
+      ['Los indicadores se calculan localmente en este dispositivo utilizando los datos que has registrado. DineroMundo no recibe esta información en esta versión.','Los indicadores se calculan en tu navegador utilizando los datos guardados en tu cuenta.'],
+      ['Almacenamiento local','Almacenamiento en tu cuenta'],
+      ['Registros de este dispositivo','Registros de tu cuenta']
+    ]);
+    document.querySelectorAll('main p,main span,main strong').forEach(node=>{const next=replacements.get(node.textContent.trim());if(next)node.textContent=next;});
+  });}
 })();
