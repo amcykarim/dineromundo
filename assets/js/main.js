@@ -1,6 +1,18 @@
 (() => {
   const ownScript=document.currentScript,assetRoot=ownScript?new URL('./',ownScript.src):new URL('assets/js/',document.baseURI);
   const load=src=>new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=new URL(src,assetRoot).href;script.onload=resolve;script.onerror=()=>reject(new Error(`No se pudo cargar ${src}`));document.head.append(script);});
+  const acquisitionKeys=['utm_source','utm_medium','utm_campaign'];
+  const cleanAcquisition=value=>String(value||'').trim().slice(0,100).replace(/[^a-z0-9._~ -]/gi,'');
+  let acquisition={};
+  try{
+    const params=new URLSearchParams(location.search),incoming=Object.fromEntries(acquisitionKeys.map(key=>[key,cleanAcquisition(params.get(key))]).filter(([,value])=>value));
+    if(Object.keys(incoming).length)sessionStorage.setItem('dm-acquisition',JSON.stringify(incoming));
+    acquisition=JSON.parse(sessionStorage.getItem('dm-acquisition')||'{}');
+  }catch(error){acquisition={};}
+  window.DMAcquisition={current:()=>({...acquisition})};
+  const tagSignupLinks=()=>{if(!Object.keys(acquisition).length)return;document.querySelectorAll('a[href*="cuenta/registro"]').forEach(link=>{const url=new URL(link.href,location.href);acquisitionKeys.forEach(key=>{if(acquisition[key])url.searchParams.set(key,acquisition[key]);});link.href=url.href;});};
+  tagSignupLinks();
+  if(Object.keys(acquisition).length)new MutationObserver(tagSignupLinks).observe(document.documentElement,{childList:true,subtree:true});
   load('production/errors.js').catch(()=>{});
   const accountArea=/\/(?:cuenta|negocios|precios)(?:\/|$)/.test(location.pathname);
   if(accountArea){const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('../css/plans.css',assetRoot).href;document.head.append(style);window.DMCloudReady=(async()=>{try{await load('config.js');const cfg=window.DINEROMUNDO_CONFIG||{},configured=cfg.supabaseUrl&&!/YOUR_PROJECT/.test(cfg.supabaseUrl)&&cfg.supabaseAnonKey&&!/YOUR_SUPABASE/.test(cfg.supabaseAnonKey);if(configured){await load('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.min.js');window.DMSupabase=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});}await load('account/auth.js');await load('business/cloud-storage.js');await load('business/migration.js');await load('plans/plans.js');await load('plans/plan-service.js');await load('plans/plan-ui.js');await load('automation/engine.js');await load('automation/templates.js');await load('automation/message-templates.js');await load('automation/service.js');await load('recurring/engine.js');await load('recurring/models.js');await load('recurring/service.js');return configured;}catch(error){console.warn('Modo de cuenta no disponible:',error.message);return false;}})();}
